@@ -1,10 +1,11 @@
 {
     "manifest_version": 2,
-    "name": "Calendar Extension",
-    "description": "Google Chrome Extension to quickly add and manage events",
+    "name": "Time Extension",
+    "description": "Google Chrome Extension to manage your time on the web",
     "version": "0.0.1",
     "browser_action": {
-        "default_popup": "src/popup.html"
+        "default_popup": "src/popup.html",
+        "default_icon": "assets/timer.png"
     },
     "background": {
         "scripts": [
@@ -16,6 +17,6 @@
         "notifications"
     ],
     "web_accessible_resources": [
-        "timer.png"
+       
     ]
 }
