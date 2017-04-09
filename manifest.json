@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "Calendar Extension",
+    "description": "Google Chrome Extension to quickly add and manage events",
+    "version": "0.0.1",
+    "browser_action": {
+        "default_popup": "src/popup.html"
+    },
+    "background": {
+        "scripts": [
+            "src/background.js"
+        ],
+        "persistent": false
+    },
+    "permissions": [
+        "tabs",
+        "notifications"
+    ],
+    "web_accessible_resources": []
+}
