@@ -3,6 +3,10 @@
         <script src="popup.js"></script>
     </head>
     <body>
-        <button id="close"> Close this tab </button> 
+        <input type="radio" name="closingTabs" value="all">All tabs in all windows<br>
+        <input type="radio" name="closingTabs" value="allCurrentWindow">All tabs in current window<br>
+        <input type="radio" name="closingTabs" value="recent">All tabs opened after set timer<br>
+        <input type="text" name="time" placeholder="Time in minutes" required>
+        <button id="close"> Apply </button> 
     </body>
 </html>

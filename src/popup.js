@@ -1,5 +1,7 @@
 function click(e) {
-    chrome.runtime.sendMessage({setTimer : true}, function(response) {
+    var closingTabs = document.querySelector('input[name="closingTabs"]:checked').value;
+    var chosenTime = document.querySelector('input[name="time"]').value;
+    chrome.runtime.sendMessage({setTimer : true, closingTabs : closingTabs, chosenTime : chosenTime}, function(response) {
         
     });
     window.close();

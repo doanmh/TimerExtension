@@ -1,25 +1,46 @@
-var sessionTabs = [];
-var sessionTabIDs = []
+var sessionTabIDs = [];
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    var chosenTime = Number(message.chosenTime)*60*1000;
     if (message.setTimer) {
-        chrome.tabs.onCreated.addListener(function(tab) {
-            if (!sessionTabIDs.includes(tab.id)) {
-                sessionTabIDs.push(tab.id);
-            }
-        });
-        setTimeout(function() {
-            closeTabs();
-        }, 10000)
+        if (message.closingTabs == "all") {
+            setTimeout(function() {
+                closeAllTabsAllWindows();
+            }, chosenTime)
+        } else if (message.closingTabs == "allCurrentWindow") {
+            setTimeout(function() {
+                closeAllTabsCurrentWindow();
+            }, chosenTime)
+        } else {
+            chrome.tabs.onCreated.addListener(function(tab) {
+                if (!sessionTabIDs.includes(tab.id)) {
+                    sessionTabIDs.push(tab.id);
+                }
+            });
+            setTimeout(function() {
+                closeRecentTabs();
+            }, chosenTime)
+        }
     }
 })
 
-var closeTabs = function() {
+var closeRecentTabs = function() {
     chrome.tabs.remove(sessionTabIDs);
-    alert(sessionTabIDs.length);
     sessionTabIDs = [];
 }
 
-var closeAllTabs = function() {
+var closeAllTabsCurrentWindow = function() {
+    chrome.tabs.query({currentWindow : true}, function(tabs) {
+        for (var i = 0; i < tabs.length; i++) {
+            chrome.tabs.remove(tabs[i].id);
+        }
+    });
+}
 
+var closeAllTabsAllWindows = function() {
+    chrome.tabs.query({}, function(tabs) {
+        for (var i = 0; i < tabs.length; i++) {
+            chrome.tabs.remove(tabs[i].id);
+        }
+    });
 }
