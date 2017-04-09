@@ -1,8 +1,25 @@
+var sessionTabs = [];
+var sessionTabIDs = []
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.setTimer) {
-        // window.webkitNotifications.createNotification("../assets/timer.ico", "Attention!", "Your session will be closed in 2 seconds").show();
-        chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
-            setTimeout(function(){chrome.tabs.remove(tabs[0].id);}, 2000);
+        chrome.tabs.onCreated.addListener(function(tab) {
+            if (!sessionTabIDs.includes(tab.id)) {
+                sessionTabIDs.push(tab.id);
+            }
         });
+        setTimeout(function() {
+            closeTabs();
+        }, 10000)
     }
 })
+
+var closeTabs = function() {
+    chrome.tabs.remove(sessionTabIDs);
+    alert(sessionTabIDs.length);
+    sessionTabIDs = [];
+}
+
+var closeAllTabs = function() {
+
+}

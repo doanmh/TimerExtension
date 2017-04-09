@@ -1,6 +1,6 @@
 function click(e) {
     chrome.runtime.sendMessage({setTimer : true}, function(response) {
-        // window.webkitNotifications.createNotification("../assets/timer.ico", "Attention!", "Your session will be closed in 2 seconds").show();
+        
     });
     window.close();
 }
