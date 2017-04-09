@@ -1,7 +1,7 @@
 var sessionTabIDs = [];
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    var chosenTime = Number(message.chosenTime)*60*1000;
+    var chosenTime = message.chosenTime*60*1000;
     if (message.setTimer) {
         if (message.closingTabs == "all") {
             setTimeout(function() {
