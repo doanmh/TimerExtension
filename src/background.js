@@ -6,12 +6,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         if (message.closingTabs == "all") {
             setTimeout(function() {
                 closeAllTabsAllWindows();
-            }, chosenTime)
+            }, chosenTime);
         } else if (message.closingTabs == "allCurrentWindow") {
             setTimeout(function() {
                 closeAllTabsCurrentWindow();
-            }, chosenTime)
-        } else {
+            }, chosenTime);
+        } else if (message.closingTabs == "recent") {
             chrome.tabs.onCreated.addListener(function(tab) {
                 if (!sessionTabIDs.includes(tab.id)) {
                     sessionTabIDs.push(tab.id);
@@ -19,13 +19,20 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             });
             setTimeout(function() {
                 closeRecentTabs();
-            }, chosenTime)
+            }, chosenTime);
+        } else {
+            setTimeout(function() {
+                closeCurrentTab();
+            }, chosenTime);
         }
     }
+    var notification = webkitNotifications.createNotification("timer.png", "Attention!", "Timer is set");
+    notification.show();
 })
 
 var closeRecentTabs = function() {
     chrome.tabs.remove(sessionTabIDs);
+    closeCurrentTab();
     sessionTabIDs = [];
 }
 
@@ -42,5 +49,11 @@ var closeAllTabsAllWindows = function() {
         for (var i = 0; i < tabs.length; i++) {
             chrome.tabs.remove(tabs[i].id);
         }
+    });
+}
+
+var closeCurrentTab = function() {
+    chrome.tabs.query({active : true, currentWindow : true}, function(tabs){
+        chrome.tabs.remove(tabs[0].id);
     });
 }
