@@ -1,15 +1,26 @@
 <html>
     <head>
         <script src="popup.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
+        <p> Choose tabs and time to close your session </p>
         <form>
-            <input type="radio" name="closingTabs" value="all">All tabs in all windows<br>
-            <input type="radio" name="closingTabs" value="allCurrentWindow">All tabs in current window<br>
-            <input type="radio" name="closingTabs" value="recent">All tabs opened after set timer<br>
-            <input type="radio" name="closingTabs" value="this">This tab only
-            <input type="number" name="time" placeholder="Time in minutes" min="0" value="0" required>
+            <input type="radio" id="op1" name="closingTabs" value="all"/>
+            <label for="op1"><span></span>All tabs in all windows</label>
+            <br>
+            <input type="radio" id="op2" name="closingTabs" value="allCurrentWindow"/>
+            <label for="op2"><span></span>All tabs in current window</label>
+            <br>
+            <input type="radio" id="op3" name="closingTabs" value="recent"/>
+            <label for="op3"><span></span>All tabs opened after timer set</label>
+            <br>
+            <input type="radio" id="op4" name="closingTabs" value="this"/>
+            <label for="op4"><span></span>This tab only</label>
+            <br>
+            <input type="number" name="time" placeholder="Time in minutes" min="0" value="0" required> Minutes
+            <br>
             <input type="submit" id="apply" value="Apply">
-        </form>
+       </form>
     </body>
 </html>

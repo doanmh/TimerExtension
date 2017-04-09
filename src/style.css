@@ -1,0 +1,52 @@
+html {
+    width : 200px;
+    height: 180px;
+    font-family: Arial, sans-serif;
+    position:relative;
+    background:#40464b;
+    margin:0;
+    color:#f2f2f2;
+}
+
+input {
+    outline: none;
+}
+
+input[type="radio"] {
+    display:none;
+}
+
+input[type="radio"] + label {
+    
+    font-family:Arial, sans-serif;
+}
+
+input[type="radio"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-2px 10px 0 0;
+    vertical-align:middle;
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -38px top no-repeat;
+    cursor:pointer;
+}
+
+input[type="radio"]:checked + label span {
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -57px top no-repeat;
+}
+
+input[type="number"] {
+    margin: 10px 0px;
+}
+
+input[type="submit"] {
+    margin: auto;
+    display: block;
+    padding: 5px;
+    outline: none;
+    display: block;
+    background-color: #4dcae5;
+    border: none;
+    cursor: pointer;
+    color: #f2f2f2;
+}
