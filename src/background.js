@@ -1,16 +1,19 @@
 var sessionTabIDs = [];
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    var chosenTime = message.chosenTime*60*1000;
-    if (message.setTimer) {
+    if (message.setTimer) {   
+        timerSetNotification();     
+        var chosenTime = message.chosenTime*60*1000;
         if (message.closingTabs == "all") {
             setTimeout(function() {
                 closeAllTabsAllWindows();
             }, chosenTime);
+            timeUpNotification(chosenTime);
         } else if (message.closingTabs == "allCurrentWindow") {
             setTimeout(function() {
                 closeAllTabsCurrentWindow();
             }, chosenTime);
+            timeUpNotification(chosenTime);
         } else if (message.closingTabs == "recent") {
             chrome.tabs.onCreated.addListener(function(tab) {
                 if (!sessionTabIDs.includes(tab.id)) {
@@ -20,20 +23,20 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             setTimeout(function() {
                 closeRecentTabs();
             }, chosenTime);
+            timeUpNotification(chosenTime);
         } else {
             setTimeout(function() {
                 closeCurrentTab();
             }, chosenTime);
+            timeUpNotification(chosenTime);
         }
     }
-    var notification = webkitNotifications.createNotification("timer.png", "Attention!", "Timer is set");
-    notification.show();
-})
+});
 
 var closeRecentTabs = function() {
     chrome.tabs.remove(sessionTabIDs);
-    closeCurrentTab();
     sessionTabIDs = [];
+    timerDoneNotification();
 }
 
 var closeAllTabsCurrentWindow = function() {
@@ -42,6 +45,7 @@ var closeAllTabsCurrentWindow = function() {
             chrome.tabs.remove(tabs[i].id);
         }
     });
+    timerDoneNotification();
 }
 
 var closeAllTabsAllWindows = function() {
@@ -50,10 +54,50 @@ var closeAllTabsAllWindows = function() {
             chrome.tabs.remove(tabs[i].id);
         }
     });
+    timerDoneNotification();
 }
 
 var closeCurrentTab = function() {
     chrome.tabs.query({active : true, currentWindow : true}, function(tabs){
         chrome.tabs.remove(tabs[0].id);
     });
+    timerDoneNotification();
+}
+
+var timerSetNotification = function() {
+    var opt = {
+        type: "basic",
+        title: "The clock is ticking!",
+        message: "Your timer is set",
+        iconUrl: "../assets/timer.ico",
+        eventTime : Date.now() + 5000
+    }
+
+    chrome.notifications.create(opt);
+}
+
+var timeUpNotification = function(chosenTime) {
+    var opt = {
+        type: "basic",
+        title: "Time Up!",
+        message: "Your session is ending in 15 seconds",
+        iconUrl: "../assets/timer.ico",
+        eventTime : Date.now() + 5000
+    }
+    if (chosenTime >= 15000) {
+        setTimeout(function() {
+            chrome.notifications.create(opt);
+        }, chosenTime - 15000)
+    }
+}
+
+var timerDoneNotification = function() {
+    var opt = {
+        type: "basic",
+        title: "Timer Done!",
+        message: "Your session ended",
+        iconUrl: "../assets/timer.ico",
+        eventTime : Date.now() + 5000
+    }
+    chrome.notifications.create(opt);
 }

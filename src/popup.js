@@ -6,8 +6,6 @@ function click(e) {
             
         });
         window.close();
-        // var notification = webkitNotifications.createNotification("timer.png", "Attention!", "Timer is set");
-        // notification.show();
     }
 }
 

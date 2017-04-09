@@ -9,12 +9,13 @@
     "background": {
         "scripts": [
             "src/background.js"
-        ],
-        "persistent": false
+        ]
     },
     "permissions": [
         "tabs",
         "notifications"
     ],
-    "web_accessible_resources": []
+    "web_accessible_resources": [
+        "timer.png"
+    ]
 }
